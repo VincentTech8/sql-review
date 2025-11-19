@@ -3,8 +3,8 @@
 ## Table of Contents
 - [1. Project Overview](#1-project-overview)
 - [2. Migration Strategy](#2-migration-strategy)
-- [3. Primary Key Migration](#3-primary-key-migration)
-- [4. Foreign Key Migration](#4-foreign-key-migration)
+- [3. Updated Primary Key Migration](#3-updated-primary-key-migration)
+- [4. Updated Foreign Key Migration](#4-updated-foreign-key-migration)
 - [5. Index Management](#5-index-management)
 ---
 
@@ -54,7 +54,7 @@ For detailed migration progress, please see the [Updated Migration Progress Tabl
 
 ---
 
-## 3. Primary Key Migration
+## 3. Updated Primary Key Migration
 
 ### Decision: Dual Key System
 
@@ -105,7 +105,7 @@ def id(self):
     return self.mongo_oid
 ```
 ---
-## 4. Foreign Key Migration
+## 4. Updated Foreign Key Migration
 
 ### Why RelReferenceField?
 
