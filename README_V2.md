@@ -67,6 +67,19 @@ class StepNote(EmbeddedDocument):
     notes = ListField(StringField(), default=list, required=True)
 ```
 
+### 2.2. Missing db_field Parameter in Some Relationships
+
+#### Before (RM_Django_Frontend_New)
+```python
+class VoucherCode(Document):
+    company = RelReferenceField(Company,reverse_delete_rule=DO_NOTHING, related_name="company_code_voucher", target_field="company_domain")
+```
+#### New
+```python
+class VoucherCode(Document):
+    company = RelReferenceField(Company,reverse_delete_rule=DO_NOTHING, related_name="company_code_voucher", target_field="company_domain", db_field="company_id")
+```
+
 ## 3. Added MongoEngine Documents
 
 ## 4. Foreign Key Migration for Django User Model
