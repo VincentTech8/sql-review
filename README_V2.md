@@ -43,16 +43,16 @@ For detailed migration progress, please see the [Updated Migration Progress Tabl
 
 ## 2. Updated Djongo to MongoEngine Migration Logic
 
-### Djongo Principles
+### 2.1a. Djongo Principles
 - **null**: If **True**, Django will store empty values as **NULL** in the database. Default is **False**.
 - **blank**: If **True**, the field is allowed to be blank. Default is **False**.
 
-### MongoEngine Principles
+### 2.1b. MongoEngine Principles
 - **required**: (Default: **False** - Equivalent to null=True and blank=True in Djongo) If set to **True** and the field is not set on the document instance, a **ValidationError** will be raised when the document is validated.
 
-### Decision: Added the missing required=True and db_fields="field_name" to all models.py MongoEngine Documents that requires it.
+#### Decision: Added the missing required=True and db_fields="field_name" to all models.py MongoEngine Documents that requires it.
 
-### Before (Djongo)
+#### Before (Djongo)
 ```python
 class StepNote(models.Model):
     step_name = models.CharField(max_length=200)
@@ -60,7 +60,7 @@ class StepNote(models.Model):
     class Meta:
         abstract = True
 ```
-### After (MongoEngine)
+#### After (MongoEngine)
 ```python
 class StepNote(EmbeddedDocument):
     step_name = StringField(max_length=200, required=True)
