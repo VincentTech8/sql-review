@@ -3,7 +3,7 @@
 ## Table of Contents
 - [1. Project Overview](#1-project-overview)
 - [2. Updated Djongo to MongoEngine Migration Logic](#2-updated-djongo-to-mongoengine-migration-logic)
-- [3. Added New MongoEngine Documents to Reflect Prerelease Branch](#3-added-mongoengine-documents-to-reflect-prerelease-branch)
+- [3. Added New MongoEngine Documents To Reflect Prerelease Branch](#3-added-mongoengine-documents-to-reflect-prerelease-branch)
 - [4. Foreign Key Migration for Django User Model](#4-foreign-key-migration-for-django-user)
 - [5. PostgreSQL Setup for User Model](#5-postgresql-setup-for-user-model)
 - [6. Index Management](#6-index-management)
