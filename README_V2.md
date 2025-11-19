@@ -3,7 +3,7 @@
 ## Table of Contents
 - [1. Project Overview](#1-project-overview)
 - [2. Updated Djongo to MongoEngine Migration Logic](#2-updated-djongo-to-mongoengine-migration-logic)
-- [3. Added MongoEngine Documents](#3-added-mongoengine-documents)
+- [3. Added New MongoEngine Documents to Reflect Prerelease Branch](#3-added-mongoengine-documents-to-reflect-prerelease-branch)
 - [4. Foreign Key Migration for Django User Model](#4-foreign-key-migration-for-django-user)
 - [5. PostgreSQL Setup for User Model](#5-postgresql-setup-for-user-model)
 - [6. Index Management](#6-index-management)
@@ -80,7 +80,7 @@ class VoucherCode(Document):
     company = RelReferenceField(Company,reverse_delete_rule=DO_NOTHING, related_name="company_code_voucher", target_field="company_domain", db_field="company_id")
 ```
 
-## 3. Added MongoEngine Documents
+## 3. Added New MongoEngine Documents to Reflect Prerelease Branch
 
 ## 4. Foreign Key Migration for Django User Model
 
