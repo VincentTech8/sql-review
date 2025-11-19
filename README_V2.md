@@ -1,4 +1,4 @@
-# Djongo to MongoEngine Migration Guide
+# Djongo to MongoEngine Migration Guide (Continuation of RM_Django_Frontend_New)
 
 ## Table of Contents
 - [1. Project Overview](#1-project-overview)
@@ -29,7 +29,7 @@ Replace Djongo ORM with MongoEngine ODM, using the latest library versions while
 
 ### Migration Progress Check
 
-For detailed migration progress, please see the [Migration Progress Table](./MIGRATION_PROGRESS.md).
+For detailed migration progress, please see the [Updated Migration Progress Table](./MIGRATION_PROGRESS_V2.md).
 
 | App Name     | Progress |
 |--------------|----------|
