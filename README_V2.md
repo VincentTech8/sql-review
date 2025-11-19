@@ -54,42 +54,17 @@ For detailed migration progress, please see the [Updated Migration Progress Tabl
 
 ### Before (Djongo)
 ```python
-class Strategy_Notes(models.Model):
-    id = models.IntegerField(primary_key = True)
-    strategy_id = models.ForeignKey(Strategy, null=True, blank=True, on_delete=models.DO_NOTHING, related_name="strategy", unique=True)
-    notes = models.ArrayField(model_container=StepNote)
+class StepNote(models.Model):
+    step_name = models.CharField(max_length=200)
+    notes = models.JSONField(blank=False, null=False, default=[ ])
+    class Meta:
+        abstract = True
 ```
 ### After (MongoEngine)
 ```python
-class Strategy_Notes(Document):
-    meta = {
-        "db_alias": "default",
-        "collection": "strategy_strategy_notes",
-        "id_field": "mongo_oid",
-        "strict": True,
-        "allow_inheritance": False
-    }
-    
-    mongo_oid = ObjectIdField(primary_key=True, db_field="_id", default=ObjectId)
-    strategy_notes_id = IntField(db_field="id", unique=True, required=True)
-    strategy_id = RelReferenceField(
-        'Strategy',  
-        reverse_delete_rule=DO_NOTHING,
-        related_name="strategy",
-        target_field="strategy_id",
-        db_field="strategy_id_id",
-        unique=True,        
-        null=True,
-        required=False
-    )
-    notes = ListField(EmbeddedDocumentField(StepNote), default=list, required=True)  
-    
-    def save(self, *args, **kwargs):
-        # Auto-increment business ID
-        if self.strategy_notes_id is None:
-            self.strategy_notes_id = auto_increment_id(self, 'strategy_notes_id')
-        
-        return super().save(*args, **kwargs)
+class StepNote(EmbeddedDocument):
+    step_name = StringField(max_length=200, required=True)
+    notes = ListField(StringField(), default=list, required=True)
 ```
 
 ## 3. Added MongoEngine Documents
