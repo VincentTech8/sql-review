@@ -2,10 +2,11 @@
 
 ## Table of Contents
 - [1. Project Overview](#1-project-overview)
-- [2. Added MongoEngine Documents](#2-added-mongoengine-documents)
-- [3. Foreign Key Migration for Django User Model](#3-foreign-key-migration-for-django-user)
-- [4. PostgreSQL Setup for User Model](#4-postgresql-setup-for-user-model)
-- [5. Index Management](#5-index-management)
+- [2. Updated Djongo to MongoEngine Migration Logic](#2-updated-djongo-to-mongoengine-migration-logic)
+- [3. Added MongoEngine Documents](#3-added-mongoengine-documents)
+- [4. Foreign Key Migration for Django User Model](#4-foreign-key-migration-for-django-user)
+- [5. PostgreSQL Setup for User Model](#5-postgresql-setup-for-user-model)
+- [6. Index Management](#6-index-management)
 ---
 
 ## 1. Project Overview
@@ -40,13 +41,64 @@ For detailed migration progress, please see the [Updated Migration Progress Tabl
 
 ---
 
-## 2. Added MongoEngine Documents
+## 2. Updated Djongo to MongoEngine Migration Logic
 
-## 3. Foreign Key Migration for Django User Model
+### Djongo Principles
+- **null**: If **True**, Django will store empty values as **NULL** in the database. Default is **False**.
+- **blank**: If **True**, the field is allowed to be blank. Default is **False**.
 
-## 4. PostgreSQL Setup for User Model
+### MongoEngine Principles
+- **required**: (Default: **False** - Equivalent to null=True and blank=True in Djongo) If set to **True** and the field is not set on the document instance, a **ValidationError** will be raised when the document is validated.
 
-## 5. Index Management
+### Decision: Added the missing required=True and db_fields="field_name" to all models.py MongoEngine Documents that requires it.
+
+### Before (Djongo)
+```python
+class Strategy_Notes(models.Model):
+    id = models.IntegerField(primary_key = True)
+    strategy_id = models.ForeignKey(Strategy, null=True, blank=True, on_delete=models.DO_NOTHING, related_name="strategy", unique=True)
+    notes = models.ArrayField(model_container=StepNote)
+```
+### After (MongoEngine)
+```python
+class Strategy_Notes(Document):
+    meta = {
+        "db_alias": "default",
+        "collection": "strategy_strategy_notes",
+        "id_field": "mongo_oid",
+        "strict": True,
+        "allow_inheritance": False
+    }
+    
+    mongo_oid = ObjectIdField(primary_key=True, db_field="_id", default=ObjectId)
+    strategy_notes_id = IntField(db_field="id", unique=True, required=True)
+    strategy_id = RelReferenceField(
+        'Strategy',  
+        reverse_delete_rule=DO_NOTHING,
+        related_name="strategy",
+        target_field="strategy_id",
+        db_field="strategy_id_id",
+        unique=True,        
+        null=True,
+        required=False
+    )
+    notes = ListField(EmbeddedDocumentField(StepNote), default=list, required=True)  
+    
+    def save(self, *args, **kwargs):
+        # Auto-increment business ID
+        if self.strategy_notes_id is None:
+            self.strategy_notes_id = auto_increment_id(self, 'strategy_notes_id')
+        
+        return super().save(*args, **kwargs)
+```
+
+## 3. Added MongoEngine Documents
+
+## 4. Foreign Key Migration for Django User Model
+
+## 5. PostgreSQL Setup for User Model
+
+## 6. Index Management
 ### Current Strategy
 - **Removed**: Legacy `__primary_key__` indexes from converted models
 - **Using**: MongoEngine auto-created indexes (e.g., `id_1` for unique fields)
