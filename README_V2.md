@@ -43,6 +43,7 @@ For detailed migration progress, please see the [Updated Migration Progress Tabl
 
 ## 2. Updated Djongo to MongoEngine Migration Logic
 
+### 2.1. Missing required=True, null=True/False, or blank=True/False Argument
 ### 2.1a. Djongo Principles
 - **null**: If **True**, Django will store empty values as **NULL** in the database. Default is **False**.
 - **blank**: If **True**, the field is allowed to be blank. Default is **False**.
@@ -78,6 +79,24 @@ class VoucherCode(Document):
 ```python
 class VoucherCode(Document):
     company = RelReferenceField(Company,reverse_delete_rule=DO_NOTHING, related_name="company_code_voucher", target_field="company_domain", db_field="company_id")
+```
+
+### 2.3. Error in choice=() Parameter Syntax
+#### Before (Djongo)
+```python
+class Brand(models.Model):
+    style_guide = models.CharField(max_length=30, choices=(('Yes', 'Yes'), ('No', 'No')))
+```
+#### After (MongoEngine - RM_Django_Frontend_New)
+```python
+class Brand(EmbeddedDocument):
+    style_guide = StringField(max_length=30, choices=(('Yes', 'Yes'), ('No', 'No')))
+```
+
+#### After (MongoEngine - Current)
+```python
+class Brand(EmbeddedDocument):
+    style_guide = StringField(max_length=30, choices=('Yes', 'No'), required=True)
 ```
 
 ## 3. Added New MongoEngine Documents
