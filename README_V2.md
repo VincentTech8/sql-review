@@ -50,7 +50,7 @@ For detailed migration progress, please see the [Updated Migration Progress Tabl
 ### 2.1b. MongoEngine Principles
 - **required**: (Default: **False** - Equivalent to null=True and blank=True in Djongo) If set to **True** and the field is not set on the document instance, a **ValidationError** will be raised when the document is validated.
 
-#### Decision: Added the missing required=True and db_fields="field_name" to all models.py MongoEngine Documents that require it.
+#### Decision: Added the missing required=True, null=True/False, or blank=True/False to all models.py MongoEngine Documents that require it.
 
 #### Before (Djongo)
 ```python
