@@ -3,7 +3,7 @@
 ## Table of Contents
 - [1. Project Overview](#1-project-overview)
 - [2. Updated Djongo to MongoEngine Migration Logic](#2-updated-djongo-to-mongoengine-migration-logic)
-- [3. Added New MongoEngine Documents](#3-added-mongoengine-documents)
+- [3. Added New MongoEngine Documents](#3-added-new-mongoengine-documents)
 - [4. Foreign Key Migration for Django User Model](#4-foreign-key-migration-for-django-user-model)
 - [5. PostgreSQL Setup for User Model](#5-postgresql-setup-for-user-model)
 - [6. Index Management](#6-index-management)
