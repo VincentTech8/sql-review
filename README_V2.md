@@ -81,51 +81,10 @@ class VoucherCode(Document):
     company = RelReferenceField(Company,reverse_delete_rule=DO_NOTHING, related_name="company_code_voucher", target_field="company_domain", db_field="company_id")
 ```
 
-### 2.3. Error in choice=() Parameter Syntax
-#### Before (Djongo)
-```python
-class Brand(models.Model):
-    style_guide = models.CharField(max_length=30, choices=(('Yes', 'Yes'), ('No', 'No')))
-```
-#### After (MongoEngine - RM_Django_Frontend_New)
-```python
-class Brand(EmbeddedDocument):
-    style_guide = StringField(max_length=30, choices=(('Yes', 'Yes'), ('No', 'No')))
-```
-
-#### After (MongoEngine - Current)
-```python
-class Brand(EmbeddedDocument):
-    style_guide = StringField(max_length=30, choices=('Yes', 'No'), required=True)
-```
-
 ## 3. Added New MongoEngine Documents
 
 ## 4. Foreign Key Migration for Django User Model
 
 ## 5. PostgreSQL Setup for User Model
 
-## 6. Index Management
-### Current Strategy
-- **Removed**: Legacy `__primary_key__` indexes from converted models
-- **Using**: MongoEngine auto-created indexes (e.g., `id_1` for unique fields)
-- **New system**: Standard MongoDB index naming
-
-### Index State After Migration
-```javascript
-// Current indexes in converted collections:
-db.account_order.getIndexes()
-[
-  {"key": {"_id": 1}, "name": "_id_"},     // MongoDB default
-  {"key": {"id": 1}, "name": "id_1"}      // Auto-created by unique=True
-]
-// Removed: {"key": {"id": 1}, "name": "__primary_key__"}
-```
-
-### For Legacy System Performance
-If old system queries become slow, restore legacy index:
-```python
-# create index to account collection 
-db.account_collection.createIndex({"id": 1}, {"name": "__primary_key__"})
-```
 ---
