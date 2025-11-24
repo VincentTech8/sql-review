@@ -145,6 +145,23 @@ Completed foreign key migration for the Django User model to ensure consistent r
 
 ## 5. PostgreSQL Setup for User Model
 
+Once the PostgreSQL database is created, update the settings.py file with the appropriate connection parameters to enable Django to use PostgreSQL, as shown below.
 
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': your_db_name,
+        'USER': your_db_username,
+        'PASSWORD': your_db_password,
+        'HOST': your_db_hostname,
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
+        'CONN_MAX_AGE': 600,
+    }
+}
+```
 
 ---
