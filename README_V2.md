@@ -137,6 +137,14 @@ class Generated_Image(Document):
 
 ## 4. Foreign Key Migration for Django User Model
 
+Completed foreign key migration for the Django User model to ensure consistent relational mapping across:
+- **Campaign** from strategy/models.py -> campaign_creator variable
+- **Strategy** from strategy/models.py -> strategy_creator variable
+
+
+
 ## 5. PostgreSQL Setup for User Model
+
+
 
 ---
