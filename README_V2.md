@@ -83,6 +83,59 @@ class VoucherCode(Document):
 
 ## 3. Added New MongoEngine Documents
 
+Added new MongoEngine documents to support expanded data structures, including:
+- **XeroxDistributor** from account/models.py
+- **Generated_Image** from dashboard/models.py
+
+```python
+class XeroxDistributor(Document):
+    meta = {
+        "db_alias": "default",
+        "collection": "account_xeroxdistributor",
+        "id_field": "mongo_oid",
+        "strict": True,
+        "allow_inheritance": False
+    }
+      
+    mongo_oid = ObjectIdField(primary_key=True, db_field="_id", default=ObjectId)
+    distributor_id = IntField(db_field="id", unique=True, required=True)
+    
+    first_name = StringField(max_length=255, required=True)
+    last_name = StringField(max_length=255, required=True)
+    email = StringField(max_length=255, required=True)
+    company_name = StringField(max_length=255, required=True)
+    registered_date = DateTimeField()
+    
+    def save(self, *args, **kwargs):
+        if not self.registered_date:
+            self.registered_date = utc_now()
+        return super().save(*args, **kwargs)  
+```
+
+```python
+class Generated_Image(Document):
+    meta = {
+        "db_alias": "default", 
+        "collection": "dashboard_generated_image"
+    }
+    
+    image_company = RelReferenceField(
+        Company, 
+        required=True, 
+        unique=True, 
+        reverse_delete_rule=DO_NOTHING,
+        verbose_name="User Company", 
+        target_field="company_domain",
+        db_field = "image_company_id"
+    )
+    
+    user_bg_templates = ListField(DictField(), required=True, default=[])
+    data = ListField(DictField(), required=True, default=[])
+    
+    def __str__(self):
+        return str(self.image_company)    
+```
+
 ## 4. Foreign Key Migration for Django User Model
 
 ## 5. PostgreSQL Setup for User Model
