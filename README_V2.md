@@ -98,18 +98,18 @@ class XeroxDistributor(Document):
     }
       
     mongo_oid = ObjectIdField(primary_key=True, db_field="_id", default=ObjectId)
-    distributor_id = IntField(db_field="id", unique=True, required=True)
+    distributor_id = IntField(db_field="id", unique=True)
     
-    first_name = StringField(max_length=255, required=True)
-    last_name = StringField(max_length=255, required=True)
-    email = StringField(max_length=255, required=True)
-    company_name = StringField(max_length=255, required=True)
+    first_name = StringField(max_length=255)
+    last_name = StringField(max_length=255)
+    email = StringField(max_length=255)
+    company_name = StringField(max_length=255)
     registered_date = DateTimeField()
     
     def save(self, *args, **kwargs):
         if not self.registered_date:
             self.registered_date = utc_now()
-        return super().save(*args, **kwargs)  
+        return super().save(*args, **kwargs)     
 ```
 
 ```python
@@ -129,8 +129,8 @@ class Generated_Image(Document):
         db_field = "image_company_id"
     )
     
-    user_bg_templates = ListField(DictField(), required=True, default=[])
-    data = ListField(DictField(), required=True, default=[])
+    user_bg_templates = ListField(DictField(), default=[])
+    data = ListField(DictField(), default=[])
     
     def __str__(self):
         return str(self.image_company)    
