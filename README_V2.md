@@ -6,6 +6,7 @@
 - [3. Added New MongoEngine Documents](#3-added-new-mongoengine-documents)
 - [4. Foreign Key Migration for Django User Model](#4-foreign-key-migration-for-django-user-model)
 - [5. PostgreSQL Setup for User Model](#5-postgresql-setup-for-user-model)
+- [6. Updated Packages](#6-updated-packages)
 ---
 
 ## 1. Project Overview
@@ -168,5 +169,7 @@ Then migrate:
 ```bash
 python manage.py migrate
 ```
+
+## 6. Updated Packages
 
 ---
