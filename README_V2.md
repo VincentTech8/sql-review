@@ -47,7 +47,7 @@ For detailed migration progress, please see the [Updated Migration Progress Tabl
 ### 2.1a. Djongo Principles
 - **null**: If **True**, Django will store empty values as **NULL** in the database. Default is **False**.
 - **blank**: If **True**, the field is allowed to be blank. Default is **False**.
-- **In default**: Django will store the CharField() and TextField() as **default=""**.
+- **In default**: Django will store the CharField() and TextField() as **default=""** if the field is not used during creation of a document.
 
 ### 2.1b. MongoEngine Principles
 - **required**: (Default: **False** - Equivalent to null=True and blank=True in Djongo) If set to **True** and the field is not set on the document instance, a **ValidationError** will be raised when the document is validated.
