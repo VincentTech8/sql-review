@@ -47,11 +47,12 @@ For detailed migration progress, please see the [Updated Migration Progress Tabl
 ### 2.1a. Djongo Principles
 - **null**: If **True**, Django will store empty values as **NULL** in the database. Default is **False**.
 - **blank**: If **True**, the field is allowed to be blank. Default is **False**.
+- **In default**: Django will store the CharField() and TextField() as **default=""**.
 
 ### 2.1b. MongoEngine Principles
 - **required**: (Default: **False** - Equivalent to null=True and blank=True in Djongo) If set to **True** and the field is not set on the document instance, a **ValidationError** will be raised when the document is validated.
 
-#### Decision: Added the missing required=True, null=True/False, or blank=True/False to all models.py MongoEngine Documents that require it.
+#### Decision: Added the missing default="", null=True/False, or blank=True/False to all models.py MongoEngine Documents that require it.
 
 #### Before (Djongo)
 ```python
@@ -64,7 +65,7 @@ class StepNote(models.Model):
 #### After (MongoEngine)
 ```python
 class StepNote(EmbeddedDocument):
-    step_name = StringField(max_length=200, required=True)
+    step_name = StringField(max_length=200, default="")
     notes = ListField(StringField(), default=list, required=True)
 ```
 
